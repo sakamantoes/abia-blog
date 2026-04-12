@@ -1,25 +1,23 @@
-import express from 'express';
+import express from "express";
 import {
   createPost,
   getPosts,
   getPostById,
   updatePost,
-  deletePost
-} from '../controllers/postController.js';
+  deletePost,
+} from "../controllers/postController.js";
 
-import { protect } from '../middleware/authMiddleware.js';
-import { admin } from '../middleware/adminMiddleware.js';
-import upload from '../middleware/upload.js';
+import { protect } from "../middleware/authMiddleware.js";
+import { admin } from "../middleware/adminMiddleware.js";
+import upload from "../middleware/upload.js";
 
 const router = express.Router();
 
-router.route('/')
-  .get(getPosts)
-  .post(upload.single('image'),protect, admin, createPost);
+router.post("/", protect, admin, upload.single("image"), createPost);
+router.get("/", getPosts);
 
-router.route('/:id')
-  .get(getPostById)
-  .put(upload.single('image'), protect, admin, updatePost)
-  .delete(protect, admin, deletePost);
+router.get("/:id", getPostById);
+router.put("/:id", protect, admin, upload.single("image"), updatePost);
+router.delete("/:id", protect, admin, deletePost);
 
 export default router;
