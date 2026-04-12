@@ -13,6 +13,7 @@ import CreatePostPage from './pages/CreatePostPage';
 import EditPostPage from './pages/EditPostPage';
 import AdminCommentsPage from './pages/AdminCommentsPage';
 import PrivateRoute from './components/PrivateRoute';
+import 'leaflet/dist/leaflet.css';
 
 function App() {
   return (
