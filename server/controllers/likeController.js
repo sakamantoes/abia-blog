@@ -55,7 +55,7 @@ const getLikeCount = asyncHandler(async (req, res) => {
   res.json({ count });
 });
 
-export default {
+export {
   toggleLike,
   checkLike,
   getLikeCount
