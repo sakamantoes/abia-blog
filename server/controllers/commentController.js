@@ -100,7 +100,7 @@ const getAllComments = asyncHandler(async (req, res) => {
   res.json(comments);
 });
 
-export default {
+export{
   createComment,
   getPostComments,
   updateComment,

@@ -7,6 +7,8 @@ import errorMiddleware from './middleware/errorMiddleware.js';
 // Import routes
 import authRoutes from './routes/authRoutes.js';
 import postRoutes from './routes/PostRoutes.js';
+import likeRoutes from './routes/likeRoutes.js';
+import commentRoutes from './routes/CommentRoutes.js';
 
 
 dotenv.config();
@@ -26,7 +28,8 @@ app.use(cors({
 // Use routes
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
-
+app.use('/api/likes', likeRoutes);
+app.use('/api/comments', commentRoutes);
 
 // Routes testing
 app.use('/', (req, res) => {
