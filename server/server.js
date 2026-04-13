@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors({
-  origin: ['http://localhost:8000', 'http://localhost:5173'],
+  origin: ['https://lisa-unmodified-noble.ngrok-free.dev', 'http://localhost:5173'],
   credentials: true
 }));
 
