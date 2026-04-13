@@ -5,6 +5,7 @@ import {
   getPostById,
   updatePost,
   deletePost,
+  uploadImage,
 } from "../controllers/postController.js";
 
 import { protect } from "../middleware/authMiddleware.js";
@@ -14,6 +15,7 @@ import upload from "../middleware/upload.js";
 const router = express.Router();
 
 router.post("/", protect, admin, upload.single("image"), createPost);
+router.post("/upload", protect, admin, upload.single("image"), uploadImage);
 router.get("/", getPosts);
 
 router.get("/:id", getPostById);

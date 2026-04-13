@@ -26,7 +26,11 @@ const createPost = asyncHandler(async (req, res) => {
     userId: req.user.id,
   });
 
-  res.status(201).json(post);
+  const postJson = post.toJSON();
+  res.status(201).json({
+    ...postJson,
+    imageUrl: postJson.image,
+  });
 });
 
 // @desc    Get all posts
@@ -56,6 +60,7 @@ const getPosts = asyncHandler(async (req, res) => {
     const postJson = post.toJSON();
     return {
       ...postJson,
+      imageUrl: postJson.image,
       likeCount: postJson.Likes?.length || 0,
       commentCount: postJson.Comments?.length || 0,
       likedByUser: false, // Will be set by frontend based on user
@@ -100,6 +105,7 @@ const getPostById = asyncHandler(async (req, res) => {
   const postJson = post.toJSON();
   res.json({
     ...postJson,
+    imageUrl: postJson.image,
     likeCount: postJson.Likes?.length || 0,
     commentCount: postJson.Comments?.length || 0,
   });
@@ -116,7 +122,7 @@ const updatePost = asyncHandler(async (req, res) => {
     throw new Error("Post not found");
   }
 
-  const { title, content } = req.body;
+  const { title, content, imageUrl } = req.body;
 
   post.title = title || post.title;
   post.content = content || post.content;
@@ -124,11 +130,17 @@ const updatePost = asyncHandler(async (req, res) => {
   if (req.file) {
     const uploadResult = await uploadToCloudinary(req.file.buffer);
     post.image = uploadResult.secure_url;
+  } else if (imageUrl !== undefined) {
+    post.image = imageUrl;
   }
 
   await post.save();
 
-  res.json(post);
+  const postJson = post.toJSON();
+  res.json({
+    ...postJson,
+    imageUrl: postJson.image,
+  });
 });
 
 // @desc    Delete post (Admin only)
@@ -146,4 +158,17 @@ const deletePost = asyncHandler(async (req, res) => {
   res.json({ message: "Post removed" });
 });
 
-export { createPost, getPosts, getPostById, updatePost, deletePost };
+// @desc    Upload image
+// @route   POST /api/posts/upload
+// @access  Private/Admin
+const uploadImage = asyncHandler(async (req, res) => {
+  if (!req.file) {
+    res.status(400);
+    throw new Error("No file uploaded");
+  }
+
+  const uploadResult = await uploadToCloudinary(req.file.buffer);
+  res.status(200).json({ url: uploadResult.secure_url });
+});
+
+export { createPost, getPosts, getPostById, updatePost, deletePost, uploadImage };
