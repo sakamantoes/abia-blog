@@ -14,6 +14,7 @@ import EditPostPage from './pages/EditPostPage';
 import AdminCommentsPage from './pages/AdminCommentsPage';
 import PrivateRoute from './components/PrivateRoute';
 import 'leaflet/dist/leaflet.css';
+import AbiaMap from './components/AbiaMap';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
               <Route path="/blog/:id" element={<SinglePostPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
+              <Route path='/map' element={<AbiaMap />} />
               <Route path="/admin" element={
                 <PrivateRoute adminOnly>
                   <AdminDashboard />
